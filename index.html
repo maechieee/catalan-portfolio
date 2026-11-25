@@ -625,6 +625,8 @@ table.res.txt thead th:last-child{text-align:left}
       <div class="list mono">
         <a class="link" data-cfg-href="github" target="_blank" rel="noreferrer noopener"></a>
         <a class="link" data-cfg-href="linkedin" target="_blank" rel="noreferrer noopener">LinkedIn ↗</a>
+        <a class="link" data-cfg-href="facebook" target="_blank" rel="noreferrer noopener">Facebook ↗</a>
+        <a class="link" data-cfg-href="instagram" target="_blank" rel="noreferrer noopener">Instagram ↗</a>
         <span>Philippines</span>
       </div>
     </div>
@@ -655,6 +657,8 @@ const CONFIG = {
   formExtra: {},   // optional extra fields some services need, e.g. { access_key: "..." } for Web3Forms
   github:   "",
   linkedin: "https://linkedin.com/in/paul-catalan",
+  facebook: "https://www.facebook.com/Paulowkeyyy",
+  instagram:"https://www.instagram.com/s1mfall",
   // Project links: leave "" until you have a real URL (buttons stay inactive until then).
   projects: { "p1-repo":"https://github.com/maechieee/facility-hub", "p2-repo":"https://drive.google.com/drive/folders/19RcYBUAzsJAzuBBVO7-Vuf3Ug-MJkzQp?usp=sharing" },
   // Project screenshots: put image files in assets/ and list them here, e.g. ["assets/p1-dashboard.png","assets/p1-sales.png"].
@@ -675,7 +679,11 @@ const isPlaceholder=v=>/YOUR|\[/.test(v);
 
 // text + links from config
 $$('[data-cfg]').forEach(el=>el.textContent=CONFIG[el.dataset.cfg]);
-$$('[data-cfg-href]').forEach(a=>a.href=CONFIG[a.dataset.cfgHref]);
+$$('[data-cfg-href]').forEach(a=>{
+  const url=CONFIG[a.dataset.cfgHref];
+  if(!url||/YOUR/.test(url)||!a.textContent.trim()){a.hidden=true;return} // hide links with no URL or no label
+  a.href=url;
+});
 $$('[data-cfg-mail]').forEach(a=>{a.href='mailto:'+CONFIG.email;a.textContent=CONFIG.email});
 $$('.yr').forEach(e=>e.textContent=new Date().getFullYear());
 document.title=(isPlaceholder(CONFIG.name)?'Portfolio':CONFIG.name)+' — Software Developer';
